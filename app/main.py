@@ -24,23 +24,23 @@ async def index(request: Request, response: Response):
 
     if not user_id:  # 쿠키에 사용자 ID가 없다면 새로 생성
         user_id = generate_user_id()
-        response.set_cookie("user_id", user_id)  # 쿠키에 사용자 ID 저장
+        response.set_cookie(key="user_id", value=user_id, httponly=True)  # 쿠키에 사용자 ID 저장
 
-    return templates.TemplateResponse("index.html", {"request": request, "user_id": user_id})
+    return templates.TemplateResponse("index.html", {"request": request})
 
 # 질문 화면 (각 문제에 대한 화면)
-@app.get("/question/{question_id}/{user_id}", response_class=HTMLResponse)
-async def get_question(request: Request, question_id: int, user_id: str, db: Session = Depends(get_db)):
-    print(f"Fetching question with ID: {question_id}, User ID: {user_id}")  # Debugging line
-    question = db.query(models.Question).filter(models.Question.id == question_id).first()
+@app.get("/question/{question_id}", response_class=HTMLResponse)
+async def get_question(request: Request, question_id: int, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=400, detail="User ID not found in cookies.")
 
+    question = db.query(models.Question).filter(models.Question.id == question_id).first()
     if question:
-        print(f"Question options: {question.options}")  # Debugging line
         return templates.TemplateResponse("question.html", {
             "request": request,
             "question": question,
             "question_id": question_id,
-            "user_id": user_id
         })
     else:
         return {"error": "Question not found"}
@@ -50,41 +50,45 @@ from fastapi.responses import RedirectResponse
 
 from fastapi.responses import RedirectResponse
 
-@app.post("/question/{question_id}/{user_id}", response_class=HTMLResponse)
-async def post_answer(request: Request, question_id: int, user_id: str, answer: int = Form(...), db: Session = Depends(get_db)):
-    # 사용자 응답을 DB에 저장
+@app.post("/question/{question_id}", response_class=HTMLResponse)
+async def post_answer(request: Request, question_id: int, answer: int = Form(...), db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+
+    if not user_id:
+        raise HTTPException(status_code=400, detail="User ID not found in cookies.")
+
+        # 사용자 응답을 DB에 저장
     user_response = models.UserResponse(user_id=user_id, question_id=question_id, option_id=answer)
 
     try:
         db.add(user_response)
         db.commit()
     except Exception as e:
-        db.rollback()  # 에러 발생 시 롤백
+        db.rollback()
         raise HTTPException(status_code=500, detail="An error occurred while saving your response.")
 
-    # 다음 문제 조회 (현재 question_id에 대해 다음 문제를 찾음)
+    # 다음 문제 조회
     next_question = db.query(models.Question).filter(models.Question.id == question_id + 1).first()
 
     if not next_question:
-        # 결과 페이지로 리다이렉트 (GET 요청으로)
-        return RedirectResponse(url=f"/result/{user_id}", status_code=303)
+        # 결과 페이지로 리다이렉트
+        return RedirectResponse(url="/result", status_code=303)
 
     # 다음 문제로 이동
-    return templates.TemplateResponse("question.html", {
-        "request": request,
-        "question": next_question,
-        "question_id": next_question.id,  # 템플릿에 다음 문제 ID를 전달
-        "user_id": user_id
-    })
-
-
+    return RedirectResponse(url=f"/question/{next_question.id}", status_code=303)
 
 
 # 결과 화면 (사용자의 MBTI 결과를 계산하여 표시)
-@app.get("/result/{user_id}", response_class=HTMLResponse)
+@app.get("/result", response_class=HTMLResponse)
 async def calculate_result(request: Request, user_id: str, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=400, detail="User ID not found in cookies.")
+
     # 사용자의 응답을 가져오기
     responses = db.query(models.UserResponse).filter(models.UserResponse.user_id == user_id).all()
+    if not responses:
+        raise HTTPException(status_code=400, detail="No responses found for the user.")
 
     # MBTI 점수 초기화
     scores = {"E": 0, "I": 0, "S": 0, "N": 0, "T": 0, "F": 0, "J": 0, "P": 0}

@@ -63,16 +63,16 @@ class Option(Base):
     question_id = Column(Integer, ForeignKey("questions.id"))
     question = relationship("Question", back_populates="options")
 
-class Result(Base):
-    __tablename__ = "results"
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer)
-    mbti_type = Column(String)
-    description = Column(String)
-    survival_percent = Column(Integer)
-    character_id = Column(Integer, ForeignKey("characters.id"))
-
-    character = relationship("Character")
+# class Result(Base):
+#     __tablename__ = "results"
+#     id = Column(Integer, primary_key=True, index=True)
+#     user_id = Column(Integer)
+#     mbti_type = Column(String)
+#     description = Column(String)
+#     survival_percent = Column(Integer)
+#     character_id = Column(Integer, ForeignKey("characters.id"))
+#
+#     character = relationship("Character")
 
 class UserResponse(Base):
     __tablename__ = "user_responses"
