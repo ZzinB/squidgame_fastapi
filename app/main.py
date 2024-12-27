@@ -48,6 +48,8 @@ async def index(request: Request, response: Response, session_id: Optional[str] 
 # 질문 화면 (각 문제에 대한 화면)
 @app.get("/question/{question_id}/{session_id}", response_class=HTMLResponse)
 async def get_question(request: Request, question_id: int, session_id: str, db: Session = Depends(get_db)):
+    # print(f"Question ID: {question_id}, Session ID: {session_id}")  # 디버깅용 출력
+
     question = db.query(models.Question).filter(models.Question.id == question_id).first()
 
     if question:
