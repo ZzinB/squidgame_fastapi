@@ -1,3 +1,7 @@
+from app.domains.user import models as user_models
+from app.domains.questions import models as questions_models
+from app.domains.mbti import models as mbti_models
+
 # # app/models.py
 # from sqlalchemy import Column, Integer, String, ForeignKey
 # from sqlalchemy.orm import relationship

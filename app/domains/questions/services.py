@@ -15,10 +15,22 @@ def save_user_response(db: Session, user_id: str, question_id: int, answer: int)
     db.add(user_response)
     db.commit()
 
-# 다음 질문 찾기
+# 다음 문제 가져오기
 def get_next_question(db: Session, current_question_id: int):
-    next_question = db.query(question_models.Question).filter(question_models.Question.id == current_question_id + 1).first()
+    # next_question = db.query(question_models.Question).filter(question_models.Question.id == current_question_id + 1).first()
+    next_question = db.query(question_models.Question).filter(question_models.Question.id > current_question_id).order_by(question_models.Question.id).first()
+
+    # print(f"Next question for {current_question_id}: {next_question.id if next_question else 'None'}")
     return next_question
 
+
+# 특정 문제 ID로 문제 가져오기
 def get_question_by_id(db: Session, question_id: int):
-    return db.query(question_models.Question).filter(question_models.Question.id == question_id).first()
+    id_question = db.query(question_models.Question).filter(question_models.Question.id == question_id).first()
+    print(f"get_question_by_id returned: {id_question}")
+    return id_question
+
+
+# 첫 번째 문제 가져오기
+def get_first_question(db: Session):
+    return db.query(question_models.Question).order_by(question_models.Question.id).first()
