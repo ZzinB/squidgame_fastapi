@@ -1,9 +1,9 @@
 # app/main.py
 from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
-from app.domains.questions.routes import router as questions_router
-from app.domains.mbti.routes import router as mbti_router
-from app.domains.user.routes import router as user_router
+from app.domains.questions.questions import router as questions_router
+from app.domains.mbti.mbti import router as mbti_router
+from app.domains.user.user import router as user_router
 
 
 # 공통 설정

@@ -1,5 +1,5 @@
-from app.domains.questions import models as question_models
-from app.domains.user import models as user_models
+from app.domains.questions import questions as question_models
+from app.domains.user import user as user_models
 from sqlalchemy.orm import Session
 
 # 사용자가 선택한 답변 저장

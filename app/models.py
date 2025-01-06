@@ -1,8 +1,8 @@
-from app.domains.user import models as user_models
-from app.domains.questions import models as questions_models
-from app.domains.mbti import models as mbti_models
+from app.domains.user import user as user_models
+from app.domains.questions import questions as questions_models
+from app.domains.mbti import mbti as mbti_models
 
-# # app/models.py
+# # app/questions.py
 # from sqlalchemy import Column, Integer, String, ForeignKey
 # from sqlalchemy.orm import relationship
 # from sqlalchemy.ext.declarative import declarative_base

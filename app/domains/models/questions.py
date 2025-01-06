@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from app.domains.user.models import UserResponse
+from app.domains.user.user import UserResponse
 from app.database import Base
 
 class Question(Base):

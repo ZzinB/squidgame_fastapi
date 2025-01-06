@@ -1,7 +1,7 @@
-# app/domains/mbti/services.py
+# app/domains/mbti/questions.py
 from sqlalchemy.orm import Session
-from app.domains.questions import models as question_models
-from app.domains.user import models as user_models
+from app.domains.questions import questions as question_models
+from app.domains.user import user as user_models
 
 # 사용자 응답에 기반한 MBTI 결과 계산
 def calculate_mbti_result(db: Session, user_id: str):

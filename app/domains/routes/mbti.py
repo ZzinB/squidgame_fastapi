@@ -1,12 +1,12 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.domains.mbti.services import calculate_mbti_result, calculate_match_score
+from app.domains.mbti.mbti import calculate_mbti_result, calculate_match_score
 from app.database import get_db
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 from fastapi import Request
-from app.domains.mbti import models
+from app.domains.mbti import mbti
 from app.utils.common import templates
-from app.domains.user.services import get_user_id_by_session
+from app.domains.user.user import get_user_id_by_session
 
 router = APIRouter()
 

@@ -1,11 +1,11 @@
-# app/domains/questions/routes.py
+# app/domains/questions/mbti.py
 from fastapi import APIRouter, HTTPException, Form, Request, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
-from app.domains.questions.services import save_user_response, get_next_question, get_question_by_id, get_first_question
+from app.domains.questions.questions import save_user_response, get_next_question, get_question_by_id, get_first_question
 from app.database import get_db
 from sqlalchemy.orm import Session
 from app.utils.common import templates
-from app.domains.user.services import get_user_id_by_session
+from app.domains.user.user import get_user_id_by_session
 
 router = APIRouter()
 

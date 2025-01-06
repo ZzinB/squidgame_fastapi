@@ -1,7 +1,7 @@
 # app/db_utils.py
 from app import database
-from app.domains.mbti import models as mbti_model
-from app.domains.questions import models as questions_models
+from app.domains.mbti import mbti as mbti_model
+from app.domains.questions import questions as questions_models
 
 def add_data_to_database():
     # 데이터베이스 세션 생성
