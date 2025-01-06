@@ -7,13 +7,23 @@ def save_user_response(db: Session, user_id: str, question_id: int, answer: int)
     if isinstance(user_id, dict):
         user_id = user_id.get('user_id', None)  # 'user_id' 키의 값 추출
 
-    user_response = user_models.UserResponse(
-        user_id=user_id,
-        question_id=question_id,
-        option_id=answer
-    )
-    db.add(user_response)
+    existing_response = db.query(user_models.UserResponse).filter(
+        user_models.UserResponse.user_id == user_id,
+        user_models.UserResponse.question_id == question_id
+    ).first()
+
+    if existing_response:
+        # 기존 답변이 있으면 업데이트
+        existing_response.option_id = answer
+    else:
+        user_response = user_models.UserResponse(
+            user_id=user_id,
+            question_id=question_id,
+            option_id=answer
+        )
+        db.add(user_response)
     db.commit()
+
 
 # 다음 문제 가져오기
 def get_next_question(db: Session, current_question_id: int):
@@ -34,3 +44,4 @@ def get_question_by_id(db: Session, question_id: int):
 # 첫 번째 문제 가져오기
 def get_first_question(db: Session):
     return db.query(question_models.Question).order_by(question_models.Question.id).first()
+
