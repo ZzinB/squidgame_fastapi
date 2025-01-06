@@ -56,11 +56,13 @@ async def post_answer(request: Request, session_id: str, answer: int = Form(...)
     # print(f"Next question: {next_question.sqe}, {next_question.id}")
 
     # 템플릿 렌더링
-    return templates.TemplateResponse("question.html", {
-        "request": request,
-        "question": next_question,
-        "session_id": session_id
-    })
+    # return templates.TemplateResponse("question.html", {
+    #     "request": request,
+    #     "question": next_question,
+    #     "session_id": session_id
+    # })
+    return RedirectResponse(url=f"/question/{next_question.id}/{session_id}", status_code=303)
+
 
 
 #대기 화면
