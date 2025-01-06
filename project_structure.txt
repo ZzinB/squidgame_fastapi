@@ -1,0 +1,68 @@
+.
+├── alembic
+│   ├── README
+│   ├── env.py
+│   ├── script.py.mako
+│   └── versions
+│       ├── 4e17b4c79f84_.py
+│       ├── 7bc01086d58c_.py
+│       ├── 817973214c5e_.py
+│       ├── 93020cbad37a_.py
+│       ├── e74e894c8e31_.py
+│       └── ee2579eb99d2_.py
+├── alembic.ini
+├── app
+│   ├── __init__.py
+│   ├── database.py
+│   ├── domains
+│   │   ├── mbti
+│   │   │   ├── __init__.py
+│   │   │   ├── models.py
+│   │   │   ├── repository.py
+│   │   │   ├── routes.py
+│   │   │   └── services.py
+│   │   ├── questions
+│   │   │   ├── __init__.py
+│   │   │   ├── models.py
+│   │   │   ├── repository.py
+│   │   │   ├── routes.py
+│   │   │   └── services.py
+│   │   └── user
+│   │       ├── __init__.py
+│   │       ├── models.py
+│   │       ├── repository.py
+│   │       ├── routes.py
+│   │       └── services.py
+│   ├── main.py
+│   ├── models.py
+│   ├── sql.py
+│   ├── static
+│   │   ├── fonts
+│   │   │   ├── BMDOHYEON_otf.otf
+│   │   │   ├── BMEULJIRO.otf
+│   │   │   ├── BMEuljiro10yearslaterOTF.otf
+│   │   │   ├── BMEuljirooraeoraeOTF.otf
+│   │   │   ├── BMHANNAAir_otf.otf
+│   │   │   ├── BMHANNAProOTF.otf
+│   │   │   ├── BMHANNA_11yrs_otf.otf
+│   │   │   ├── BMJUA_otf.otf
+│   │   │   ├── BMKIRANGHAERANG-OTF.otf
+│   │   │   ├── BMKkubulim.otf
+│   │   │   └── BMYEONSUNG_otf.otf
+│   │   └── images
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── index_squid-game.png
+│   │       ├── squid-game-6710821_640.jpg
+│   │       ├── squid-game-6721749_640.jpg
+│   │       ├── v17_35.png
+│   │       └── v21_81.png
+│   ├── utils
+│   │   └── common.py
+│   └── views.py
+├── requirements.txt
+├── test.db
+└── test2.db
+
+12 directories, 54 files
