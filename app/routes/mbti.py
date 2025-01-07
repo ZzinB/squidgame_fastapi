@@ -1,12 +1,12 @@
 from fastapi import APIRouter, HTTPException, Depends
-from app.domains.mbti.mbti import calculate_mbti_result, calculate_match_score
 from app.database import get_db
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
 from fastapi import Request
-from app.domains.mbti import mbti
+from app.apis.mbti import calculate_mbti_result, calculate_match_score
+from app.apis.user import get_user_id_by_session
+from app.models import mbti
 from app.utils.common import templates
-from app.domains.user.user import get_user_id_by_session
 
 router = APIRouter()
 
@@ -23,7 +23,7 @@ async def calculate_result(request: Request, session_id: str, db: Session = Depe
     # MBTI 계산 로직
     mbti_type, scores = calculate_mbti_result(db, user_id)
 
-    characters = db.query(models.Character).join(models.MBTI).filter(models.MBTI.name == mbti_type).all()
+    characters = db.query(mbti.Character).join(mbti.MBTI).filter(mbti.MBTI.name == mbti_type).all()
     if characters:
         best_character = min(characters, key=lambda character: calculate_match_score(scores, character))
         return templates.TemplateResponse("result.html", {

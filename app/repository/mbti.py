@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.domains.mbti.mbti import MBTI, Character
+from app.models.mbti import MBTI, Character
 
 def get_all_mbti_types(db: Session):
     return db.query(MBTI).all()

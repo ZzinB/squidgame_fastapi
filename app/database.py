@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, Session
 
 Base = declarative_base()
 
-DATABASE_URL = "sqlite:///./test2.db"  # 예시로 SQLite 사용
+DATABASE_URL = "sqlite:///./test2.db"  #  SQLite 사용
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

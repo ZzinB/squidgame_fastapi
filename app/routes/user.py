@@ -1,13 +1,11 @@
-from fastapi import APIRouter, HTTPException, Request, Depends, Form, Response, Cookie
+from fastapi import APIRouter, Request, Depends, Form, Response, Cookie
 from app.database import get_db
 from sqlalchemy.orm import Session
-from app.domains.questions.questions import get_first_question, get_question_by_id
-from app.domains.user.user import generate_session_id, create_user_session
+from app.apis.user import generate_session_id, create_user_session
+from app.apis.questions import get_question_by_id
 from fastapi.responses import HTMLResponse
 from app.utils.common import templates
 from typing import Optional
-from fastapi.responses import RedirectResponse
-from app.domains.user.user import get_user_id_by_session
 
 
 router = APIRouter()

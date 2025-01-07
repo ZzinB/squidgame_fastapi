@@ -1,16 +1,15 @@
 # app/domains/mbti/questions.py
 from sqlalchemy.orm import Session
-from app.domains.questions import questions as question_models
-from app.domains.user import user as user_models
+from app.models import questions, user
 
 # 사용자 응답에 기반한 MBTI 결과 계산
 def calculate_mbti_result(db: Session, user_id: str):
-    responses = db.query(user_models.UserResponse).filter(user_models.UserResponse.user_id == user_id).all()
+    responses = db.query(user.UserResponse).filter(user.UserResponse.user_id == user_id).all()
 
     scores = {"E": 0, "I": 0, "S": 0, "N": 0, "T": 0, "F": 0, "J": 0, "P": 0}
 
     for response in responses:
-        selected_option = db.query(question_models.Option).filter(question_models.Option.id == response.option_id).first()
+        selected_option = db.query(questions.Option).filter(questions.Option.id == response.option_id).first()
         if selected_option:
             scores[selected_option.mbti_type] += selected_option.score
 

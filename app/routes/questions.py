@@ -1,11 +1,11 @@
 # app/domains/questions/mbti.py
 from fastapi import APIRouter, HTTPException, Form, Request, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
-from app.domains.questions.questions import save_user_response, get_next_question, get_question_by_id, get_first_question
+from app.apis.questions import save_user_response, get_next_question, get_question_by_id
 from app.database import get_db
 from sqlalchemy.orm import Session
 from app.utils.common import templates
-from app.domains.user.user import get_user_id_by_session
+from app.apis.user import get_user_id_by_session
 
 router = APIRouter()
 
@@ -53,14 +53,6 @@ async def post_answer(request: Request, session_id: str, answer: int = Form(...)
     if not next_question:
         return RedirectResponse(url=f"/waiting/{session_id}", status_code=303)
 
-    # print(f"Next question: {next_question.sqe}, {next_question.id}")
-
-    # 템플릿 렌더링
-    # return templates.TemplateResponse("question.html", {
-    #     "request": request,
-    #     "question": next_question,
-    #     "session_id": session_id
-    # })
     return RedirectResponse(url=f"/question/{next_question.id}/{session_id}", status_code=303)
 
 

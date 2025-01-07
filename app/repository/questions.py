@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from app.domains.questions.questions import Question, Option
+from app.models.questions import Question, Option
 
 def get_all_questions(db: Session):
     return db.query(Question).all()
